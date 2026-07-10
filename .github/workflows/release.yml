@@ -1,0 +1,86 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  notarized-dmg:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Import Developer ID identity
+        env:
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+        run: |
+          echo "$MACOS_CERT_P12" | base64 --decode > /tmp/relux-devid.p12
+          security create-keychain -p ci-temp ci.keychain
+          security set-keychain-settings -lut 21600 ci.keychain
+          security unlock-keychain -p ci-temp ci.keychain
+          security import /tmp/relux-devid.p12 -k ci.keychain -P "" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k ci-temp ci.keychain
+          security list-keychains -d user -s ci.keychain login.keychain
+          rm -f /tmp/relux-devid.p12
+
+      - name: Build signed universal app
+        env:
+          VERSION: ${{ github.ref_name }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          SIGN_IDENTITY: "Developer ID Application: Relux Works, LLC (262RZ595FP)"
+        run: scripts/build-app.sh
+
+      - name: Package and sign DMG
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          scripts/create-dmg.sh
+          codesign --force --sign "Developer ID Application: Relux Works, LLC (262RZ595FP)" \
+            --timestamp dist/ReluxProxy-*.dmg
+
+      - name: Notarize and staple
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          echo "$ASC_KEY_P8" | base64 --decode > /tmp/asc.p8
+          xcrun notarytool submit dist/ReluxProxy-*.dmg \
+            --key /tmp/asc.p8 \
+            --key-id "$ASC_KEY_ID" \
+            --issuer "$ASC_ISSUER_ID" \
+            --wait
+          rm -f /tmp/asc.p8
+          xcrun stapler staple dist/ReluxProxy-*.dmg
+          xcrun stapler validate dist/ReluxProxy-*.dmg
+          spctl -a -t open --context context:primary-signature -v dist/ReluxProxy-*.dmg
+
+      - name: Create stable latest asset and checksums
+        run: |
+          cp dist/ReluxProxy-*.dmg dist/ReluxProxy.dmg
+          (cd dist && shasum -a 256 ReluxProxy-*.dmg ReluxProxy.dmg > SHA256SUMS)
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/ReluxProxy*.dmg
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/ReluxProxy-*.dmg
+            dist/ReluxProxy.dmg
+            dist/SHA256SUMS
+          generate_release_notes: true
