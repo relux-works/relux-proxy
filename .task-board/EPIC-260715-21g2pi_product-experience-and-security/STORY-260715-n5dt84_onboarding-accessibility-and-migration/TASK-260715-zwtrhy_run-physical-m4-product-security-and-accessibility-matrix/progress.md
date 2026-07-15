@@ -8,7 +8,7 @@ backlog
 2026-07-15T02:38:19Z
 
 ## Last Update
-2026-07-15T02:47:33Z
+2026-07-15T03:11:43Z
 
 ## Blocked By
 - TASK-260715-1fk4ja
@@ -24,7 +24,15 @@ backlog
 - TASK-260715-3hvz8n
 
 ## Blocks
-- (none)
+- TASK-260715-30lksy
+- TASK-260715-1r48pc
+- TASK-260715-2aessv
+- TASK-260715-dsvvnu
+- TASK-260715-3a92td
+- TASK-260715-26wi46
+- TASK-260715-1kpnkl
+- TASK-260715-1qwp3f
+- TASK-260715-3rdsap
 
 ## Checklist
 - [ ] Deliver the stated scope while preserving every explicit non-scope boundary

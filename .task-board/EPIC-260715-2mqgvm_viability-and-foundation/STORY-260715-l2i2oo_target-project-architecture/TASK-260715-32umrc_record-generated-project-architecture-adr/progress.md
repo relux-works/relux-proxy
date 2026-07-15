@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:00:11Z
 
 ## Last Update
-2026-07-15T02:46:48Z
+2026-07-15T03:11:33Z
 
 ## Blocked By
 - TASK-260715-1fv4z1
@@ -20,6 +20,10 @@ backlog
 ## Blocks
 - TASK-260715-2btjwm
 - TASK-260715-2hhh7x
+- TASK-260715-whtdsf
+- TASK-260715-2759wy
+- TASK-260715-1tzaed
+- TASK-260715-3661ps
 
 ## Checklist
 - [ ] The target graph and dependency rules are acyclic and explicit

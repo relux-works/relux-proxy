@@ -8,7 +8,7 @@ to-dev
 2026-07-15T00:47:08Z
 
 ## Last Update
-2026-07-15T02:00:04Z
+2026-07-15T03:11:40Z
 
 ## Blocked By
 - STORY-260715-18ncz1
@@ -16,6 +16,9 @@ to-dev
 ## Blocks
 - STORY-260715-2etfkl
 - STORY-260715-1nsw9p
+- STORY-260715-anxje6
+- STORY-260715-19mjyn
+- STORY-260715-2dtdql
 
 ## Checklist
 (empty)

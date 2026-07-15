@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:44:09Z
 
 ## Last Update
-2026-07-15T01:57:36Z
+2026-07-15T03:11:26Z
 
 ## Blocked By
 - TASK-260715-27uz4n
@@ -17,6 +17,9 @@ backlog
 ## Blocks
 - TASK-260715-mocqmr
 - TASK-260715-u8tkx0
+- TASK-260715-pa6evr
+- TASK-260715-37rtzn
+- TASK-260715-151xf0
 
 ## Checklist
 - [ ] Trace every relay byte-affecting dependency to revision hash license and notice

@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:00:14Z
 
 ## Last Update
-2026-07-15T01:04:28Z
+2026-07-15T03:11:21Z
 
 ## Blocked By
 - TASK-260715-uyju7n
@@ -21,6 +21,7 @@ backlog
 
 ## Blocks
 - TASK-260715-nphtib
+- TASK-260715-1m3edc
 
 ## Checklist
 - [ ] One clean-checkout command covers every credential-free foundation check

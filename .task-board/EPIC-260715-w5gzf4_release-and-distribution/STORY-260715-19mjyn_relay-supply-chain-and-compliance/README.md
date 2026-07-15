@@ -1,10 +1,10 @@
-# STORY-260715-19mjyn: relay-supply-chain-and-compliance
+# Reproducible relay supply chain, SBOM, and compliance evidence
 
 ## Description
-Pin and build relay/dependencies, create hashes/manifests/SBOM/notices, scan artifacts, and prove bundled asset integrity.
+Productize the approved relay toolchain into reproducible release assets, verified Apple-bundle inputs, dependency inventories, SBOMs, notices, vulnerability policy, checksums, provenance, and update or rollback evidence.
 
 ## Scope
-(define story scope)
+In scope: pinned relay and dependency revisions, pinned or recorded build containers and toolchains, Linux and macOS x86_64 and arm64 release builds, independent reproducibility checks, protocol and native or emulated smoke tests, file and build identities, SHA-256 manifests, deterministic Apple-bundle selection, SBOM generation, license and third-party notices for HEV, hev-task-system, hev-socks5-core, lwIP, the SSH engine, and relay dependencies, vulnerability and secret scanning, provenance attestations, release staging, and supply-chain rollback. Out of scope: changing protocol semantics, remote install implementation, Apple code signing, notarization, TestFlight, App Review submission, runtime traffic behavior, and silently accepting unpinned inputs or unexplained binary differences.
 
 ## Acceptance Criteria
-(define acceptance criteria)
+1. Clean pinned builds produce exactly one uniquely named relay asset for each declared OS and architecture and no undeclared network fetch or mutable dependency input. 2. Two isolated builds reproduce each unsigned asset bit-for-bit or fail with a documented, reviewed nondeterminism that is removed before release. 3. A generated manifest binds protocol version, platform, architecture, size, SHA-256, build identity, source revision, dependency lock digest, and toolchain identity; CI and Apple bundle verification reject every mismatch, omission, duplicate, or ambiguous selection. 4. Machine-readable SBOMs and human-readable notices cover every shipped relay, HEV, lwIP, SSH, and transitive dependency with license text, source revision, and distribution obligation. 5. Release assets pass protocol conformance, hostile-input, stdio boundary, native or approved emulated smoke, self-hash, vulnerability, secret, and notice-completeness gates. 6. The release evidence traces source to bundled bytes and records checksums, attestations, scanners, exceptions, update procedure, rollback procedure, and residual risk without storing credentials.

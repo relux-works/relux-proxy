@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:44:09Z
 
 ## Last Update
-2026-07-15T01:57:36Z
+2026-07-15T03:11:40Z
 
 ## Blocked By
 - TASK-260715-vtot05
@@ -16,7 +16,8 @@ backlog
 - TASK-260715-1q03sa
 
 ## Blocks
-- (none)
+- TASK-260715-pa6evr
+- TASK-260715-1kpnkl
 
 ## Checklist
 - [ ] Verify a second operator can follow the four-target build and audit procedure

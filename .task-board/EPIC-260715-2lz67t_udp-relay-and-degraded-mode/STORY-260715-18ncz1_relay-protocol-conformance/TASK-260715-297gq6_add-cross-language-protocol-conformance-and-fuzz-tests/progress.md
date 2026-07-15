@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:43:57Z
 
 ## Last Update
-2026-07-15T01:57:36Z
+2026-07-15T03:11:23Z
 
 ## Blocked By
 - TASK-260715-1q7u14
@@ -20,6 +20,8 @@ backlog
 ## Blocks
 - TASK-260715-2z9b4a
 - TASK-260715-mocqmr
+- TASK-260715-1m3edc
+- TASK-260715-36gq4m
 
 ## Checklist
 - [ ] Run one semantic vector gate against both language implementations

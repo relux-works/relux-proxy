@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:44:09Z
 
 ## Last Update
-2026-07-15T01:58:18Z
+2026-07-15T03:11:22Z
 
 ## Blocked By
 - TASK-260715-1ue4oy
@@ -21,6 +21,7 @@ backlog
 - TASK-260715-2lfgwo
 - TASK-260715-2kfa02
 - TASK-260715-2m7lwo
+- TASK-260715-36gq4m
 
 ## Checklist
 - [ ] Gate all four assets on build architecture identity hash and stdio smoke

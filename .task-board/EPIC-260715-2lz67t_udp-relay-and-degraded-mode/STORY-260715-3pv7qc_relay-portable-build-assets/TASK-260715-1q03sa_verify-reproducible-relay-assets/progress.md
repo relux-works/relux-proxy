@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:44:09Z
 
 ## Last Update
-2026-07-15T01:57:36Z
+2026-07-15T03:11:25Z
 
 ## Blocked By
 - TASK-260715-1ue4oy
@@ -16,6 +16,8 @@ backlog
 
 ## Blocks
 - TASK-260715-u8tkx0
+- TASK-260715-36gq4m
+- TASK-260715-pa6evr
 
 ## Checklist
 - [ ] Run two independent clean builds and compare every target and manifest hash
