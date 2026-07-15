@@ -1,5 +1,5 @@
 ## Status
-backlog
+to-dev
 
 ## Assigned To
 (none)
@@ -8,13 +8,16 @@ backlog
 2026-07-15T00:46:59Z
 
 ## Last Update
-2026-07-15T00:46:59Z
+2026-07-15T01:35:44Z
 
 ## Blocked By
 - (none)
 
 ## Blocks
-- (none)
+- STORY-260715-2wjwuf
+- STORY-260715-2nqxa5
+- STORY-260715-2bfjhn
+- STORY-260715-eto58m
 
 ## Checklist
 (empty)
