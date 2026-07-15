@@ -4,3 +4,9 @@
 dist/
 *.xcworkspace
 xcuserdata/
+.agents/
+.claude/
+.codex/
+.local/
+.temp/
+**/__pycache__/
