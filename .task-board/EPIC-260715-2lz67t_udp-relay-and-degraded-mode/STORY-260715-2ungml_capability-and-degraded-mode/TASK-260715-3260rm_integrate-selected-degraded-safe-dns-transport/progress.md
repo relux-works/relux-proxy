@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:45:00Z
 
 ## Last Update
-2026-07-15T02:04:35Z
+2026-07-15T02:23:56Z
 
 ## Blocked By
 - TASK-260715-2zmw58
@@ -17,6 +17,8 @@ backlog
 - TASK-260715-uh8kk6
 - TASK-260715-kxxujt
 - TASK-260715-1vg1mb
+- TASK-260715-318m1v
+- TASK-260715-3ddzdd
 
 ## Checklist
 - [ ] Integrate only the approved M1 DNS components and selected tunneled upstream

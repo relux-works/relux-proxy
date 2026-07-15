@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:16:47Z
 
 ## Last Update
-2026-07-15T01:28:30Z
+2026-07-15T02:23:53Z
 
 ## Blocked By
 - TASK-260715-1gvdtz
@@ -16,7 +16,8 @@ backlog
 - TASK-260715-1dbmph
 
 ## Blocks
-- (none)
+- TASK-260715-3f9kv8
+- TASK-260715-2px5ap
 
 ## Checklist
 - [ ] Document the implemented TCP path with focused component and sequence diagrams

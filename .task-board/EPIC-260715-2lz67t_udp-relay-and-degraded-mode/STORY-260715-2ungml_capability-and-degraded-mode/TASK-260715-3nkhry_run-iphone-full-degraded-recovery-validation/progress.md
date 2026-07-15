@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:45:00Z
 
 ## Last Update
-2026-07-15T02:04:35Z
+2026-07-15T02:24:00Z
 
 ## Blocked By
 - TASK-260715-2y78ah
@@ -16,6 +16,7 @@ backlog
 
 ## Blocks
 - TASK-260715-3kga9i
+- TASK-260715-1a1fwv
 
 ## Checklist
 - [ ] Run full startup degraded startup runtime failure DNS failure restore and stop on iPhone

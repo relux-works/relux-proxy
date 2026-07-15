@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:45:00Z
 
 ## Last Update
-2026-07-15T02:04:35Z
+2026-07-15T02:23:58Z
 
 ## Blocked By
 - TASK-260715-30lv40
@@ -19,6 +19,7 @@ backlog
 ## Blocks
 - TASK-260715-ak0s72
 - TASK-260715-1vg1mb
+- TASK-260715-3gv53h
 
 ## Checklist
 - [ ] Publish versioned full degraded and failed snapshots from exact readiness predicates

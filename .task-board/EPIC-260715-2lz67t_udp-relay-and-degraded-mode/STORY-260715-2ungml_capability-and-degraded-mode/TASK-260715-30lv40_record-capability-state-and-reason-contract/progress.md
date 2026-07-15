@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:45:00Z
 
 ## Last Update
-2026-07-15T02:04:35Z
+2026-07-15T02:23:57Z
 
 ## Blocked By
 - (none)
@@ -17,6 +17,11 @@ backlog
 - TASK-260715-2zmw58
 - TASK-260715-3edgwz
 - TASK-260715-ak0s72
+- TASK-260715-3f9kv8
+- TASK-260715-1cj49i
+- TASK-260715-1zikbu
+- TASK-260715-3ddzdd
+- TASK-260715-1je8v2
 
 ## Checklist
 - [ ] Attach the state transition traffic capability and reason tables

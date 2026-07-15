@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:44:42Z
 
 ## Last Update
-2026-07-15T01:58:17Z
+2026-07-15T02:23:55Z
 
 ## Blocked By
 - TASK-260715-18owh7
@@ -19,6 +19,8 @@ backlog
 
 ## Blocks
 - TASK-260715-1ut6ot
+- TASK-260715-1pn983
+- TASK-260715-318m1v
 
 ## Checklist
 - [ ] Derive one immutable effective limit snapshot from the approved protocol decision

@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:17:04Z
 
 ## Last Update
-2026-07-15T01:28:50Z
+2026-07-15T02:23:58Z
 
 ## Blocked By
 - TASK-260715-2tj2pb
@@ -18,6 +18,7 @@ backlog
 ## Blocks
 - TASK-260715-336ljl
 - TASK-260715-1o4h97
+- TASK-260715-1xsybm
 
 ## Checklist
 - [ ] Cover dual-stack settings collisions exact exclusions ordering and rollback

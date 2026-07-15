@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:45:00Z
 
 ## Last Update
-2026-07-15T01:58:45Z
+2026-07-15T02:23:57Z
 
 ## Blocked By
 - TASK-260715-ak0s72
@@ -17,6 +17,8 @@ backlog
 
 ## Blocks
 - TASK-260715-1vg1mb
+- TASK-260715-1je8v2
+- TASK-260715-3hxnbt
 
 ## Checklist
 - [ ] Enforce mode-gated DNS TCP and UDP behavior at the owned adapter boundaries
