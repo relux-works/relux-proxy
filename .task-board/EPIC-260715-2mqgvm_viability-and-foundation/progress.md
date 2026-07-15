@@ -1,14 +1,14 @@
 ## Status
-backlog
+to-review
 
 ## Assigned To
-(none)
+[analyst] solution-architect (codex)
 
 ## Created
 2026-07-15T00:46:31Z
 
 ## Last Update
-2026-07-15T00:47:34Z
+2026-07-15T01:10:58Z
 
 ## Blocked By
 - (none)
@@ -17,9 +17,25 @@ backlog
 - (none)
 
 ## Checklist
-(empty)
+- [x] All five existing stories have complete description scope and acceptance criteria
+- [x] Every story has atomic development-ready tasks and verification work
+- [x] Within-epic gate and task dependencies are linked
+- [x] No implementation or source/specification edit was performed
+- [x] Decomposition summary and remaining decisions are attached
+- [x] Tasks created with description and AC
+- [x] Dependencies linked
+- [x] Tasks are atomic — one clear deliverable each
+- [x] Completeness verified — nothing forgotten
+- [x] Gaps closed with blocking tasks
+- [x] Diagrams or planning artifacts linked as new task-scoped outcome resources
+- [x] Important findings, decisions, anomalies, or regressions recorded in logbook when relevant
 
 ## Notes
+spawn queued: [analyst] solution-architect (codex) (run=RUN-260715-35b461, max_parallel=20)
+spawn run started: [analyst] solution-architect (codex) (run=RUN-260715-35b461)
+Solution-architect decomposition: refined all five stories and created 49 atomic backlog tasks with explicit in/out scope, numbered AC, task-specific checklists, and 85 dependency links. Canonical phases are Gate A0 plus Gate P0 in parallel, then generated project foundation, then packet bridge and HEV, then SSH selection; the comparative SSH memory gate consumes the packet and HEV baseline. Added blocking evidence or decision work for authoritative Apple intent, Apple identities and devices, generator and deployment targets, relay toolchain, measured packet defaults and fork policy, and SSH engine selection. Outcome resources: EPIC-260715-2mqgvm_decomposition-summary.md, EPIC-260715-2mqgvm_logbook.md, EPIC-260715-2mqgvm_canonical-plan.md, EPIC-260715-2mqgvm_gate-dependency.dot, and diagram-validation log. No implementation or source/specification edit was performed.
+agent completed: [analyst] solution-architect (codex) (exit=0)
+spawn run completed: codex (run=RUN-260715-35b461, pid=17635, exit=0)
 
 ## Precondition Resources
 - [EPIC-260715-2mqgvm_architecture.md](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_architecture.md) — System architecture and Apple platform-intent gate
@@ -30,4 +46,9 @@ backlog
 - [EPIC-260715-2mqgvm_upstream-verification.md](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_upstream-verification.md) — Primary-source platform and dependency evidence
 
 ## Outcome Resources
-(none)
+- [EPIC-260715-2mqgvm_spawn-log_-analyst--solution-architect--codex-.log](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_spawn-log_-analyst--solution-architect--codex-.log) — System spawn log captured by task-board
+- [EPIC-260715-2mqgvm_canonical-plan.md](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_canonical-plan.md) — Canonical task-board phase and critical-path snapshot after story handoff to to-dev
+- [EPIC-260715-2mqgvm_gate-dependency.dot](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_gate-dependency.dot) — Focused Graphviz gate and cross-story dependency diagram
+- [EPIC-260715-2mqgvm_diagram-validation-01.log](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_diagram-validation-01.log) — Graphviz render-validation environment failure and disposition
+- [EPIC-260715-2mqgvm_decomposition-summary.md](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_decomposition-summary.md) — Development-ready decomposition, phase plan, task inventory, verification, and remaining evidence decisions
+- [EPIC-260715-2mqgvm_logbook.md](file://EPIC-260715-2mqgvm/EPIC-260715-2mqgvm_logbook.md) — Planning logbook of gate distinctions, migration constraints, gaps, and validation anomaly

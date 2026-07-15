@@ -8,7 +8,7 @@ backlog
 2026-07-15T00:46:31Z
 
 ## Last Update
-2026-07-15T00:48:13Z
+2026-07-15T00:49:14Z
 
 ## Blocked By
 - (none)
@@ -17,7 +17,11 @@ backlog
 - (none)
 
 ## Checklist
-(empty)
+- [ ] All five existing stories have complete description scope and acceptance criteria
+- [ ] Every story has atomic development-ready tasks and verification work
+- [ ] CI supply-chain macOS iOS and review dependencies are linked
+- [ ] No implementation or source/specification edit was performed
+- [ ] Decomposition summary and remaining decisions are attached
 
 ## Notes
 
