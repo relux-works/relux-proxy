@@ -1,0 +1,32 @@
+## Status
+backlog
+
+## Assigned To
+(none)
+
+## Created
+2026-07-15T01:45:00Z
+
+## Last Update
+2026-07-15T02:04:35Z
+
+## Blocked By
+- (none)
+
+## Blocks
+- TASK-260715-2zmw58
+- TASK-260715-3edgwz
+- TASK-260715-ak0s72
+
+## Checklist
+- [ ] Attach the state transition traffic capability and reason tables
+- [ ] Prove full degraded failed and stale-generation readiness predicates
+- [ ] Map exact M1 M2 M3 and UI ownership boundaries
+
+## Notes
+
+## Precondition Resources
+- [TASK-260715-30lv40_m1-runtime-handoff.md](file://TASK-260715-30lv40/TASK-260715-30lv40_m1-runtime-handoff.md) — M1 runtime ownership prerequisite for capability states
+
+## Outcome Resources
+- [TASK-260715-30lv40_capability-state-plan.puml](file://TASK-260715-30lv40/TASK-260715-30lv40_capability-state-plan.puml) — Planning state diagram for full, degraded, failed, and relay-only restoration

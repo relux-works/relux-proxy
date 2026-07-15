@@ -1,10 +1,10 @@
-# STORY-260715-2etfkl: relay-bootstrap-and-session
+# Secure exec bootstrap and managed relay session
 
 ## Description
-Detect remote platform, upload through exec stdin, verify, atomically install, launch stdio relay, and monitor health without SFTP.
+Bootstrap the bundled relay after authenticated SSH by probing the remote platform, selecting the exact manifest asset, streaming it through exec stdin, verifying and atomically installing it with private permissions, then launching and supervising one framed stdio session without SFTP.
 
 ## Scope
-(define story scope)
+In scope: uname probing and normalization; exact asset selection; safe cache and temporary directory policy; shell-safe dynamic paths; umask 077; random temporary names; bounded upload and cancellation; remote SHA-256 utility fallback or protocol self-hash; chmod 700; atomic rename and version reuse; concurrent bootstrap safety; stdio launch; stderr isolation; protocol and build-identity handshake; health probes; graceful close; process and lane failure cleanup; reason-coded degraded handoff; hostile-output and failure fixtures. Out of scope: SSH authentication, SFTP, root installation, persistent daemons, public listeners, general remote shell access, UDP socket forwarding, lane pools, and M3 path reconnect.
 
 ## Acceptance Criteria
-(define acceptance criteria)
+1. Supported uname outputs select exactly one manifest entry and unsupported or ambiguous OS and architecture values return a stable capability reason without upload. 2. Upload and install use only quoted non-secret dynamic paths, private permissions, bounded buffers, checksum verification, and atomic rename; interruption or mismatch never executes a partial or unverified file. 3. A matching installed version is reused safely, upgrades are race-safe, and read-only home, noexec, missing utilities, and unsafe directory conditions map to specific non-secret reasons. 4. Launch accepts framed stdout only after protocol and build identity validation, keeps stderr diagnostic-only, monitors PING or process health, and closes all owned channels and temporary files on stop or failure. 5. Unit and remote-fixture tests cover injection attempts, hostile probe output, upload interruption, mismatch, concurrent upgrade, version incompatibility, process exit, timeout, and repeated cleanup.
