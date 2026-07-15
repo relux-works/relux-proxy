@@ -1,6 +1,14 @@
 # Relux Proxy
 
-Relux Proxy is a native macOS menu bar app that manages an SSH dynamic SOCKS5 tunnel. It uses the system `/usr/bin/ssh`, so hosts, keys, jump hosts, and other options from `~/.ssh/config` continue to work.
+Relux Proxy currently ships as a native macOS menu bar app that manages an SSH
+dynamic SOCKS5 tunnel. It uses the system `/usr/bin/ssh`, so hosts, keys, jump
+hosts, and other options from `~/.ssh/config` continue to work.
+
+The repository also contains the approved specifications and implementation
+backlog for a future macOS/iOS system VPN over SSH. That VPN is not implemented
+yet. Start with [the specification index](.spec/README.md),
+[the current-state inventory](docs/current-state.md), and
+[the saved task-board workflow](docs/project-management.md).
 
 ## Use
 
@@ -17,7 +25,8 @@ The initial defaults are `administrator@relux` and `127.0.0.1:1080`.
 
 ## Download
 
-The latest signed and notarized build always has the same URL:
+The latest signed and notarized build always has the same asset name and URL
+(GitHub authentication is required while this repository is private):
 
 https://github.com/relux-works/relux-proxy/releases/latest/download/ReluxProxy.dmg
 
@@ -34,6 +43,10 @@ make run
 ```
 
 The app is intentionally not sandboxed because it needs to launch the system SSH executable. Release bundles use the hardened runtime and are signed with the Relux Works Developer ID.
+
+Contributors must follow [CONTRIBUTING.md](CONTRIBUTING.md). Planned VPN work is
+tracked in `.task-board/`; no VPN implementation should begin without explicit
+approval of the generated plan.
 
 ## Release
 
