@@ -8,13 +8,14 @@ backlog
 2026-07-15T01:00:12Z
 
 ## Last Update
-2026-07-15T01:04:27Z
+2026-07-15T02:46:49Z
 
 ## Blocked By
 - TASK-260715-2btjwm
 
 ## Blocks
 - TASK-260715-sbrrp7
+- TASK-260715-1idq8c
 
 ## Checklist
 - [ ] iOS host and provider targets match the approved identity matrix

@@ -8,7 +8,7 @@ backlog
 2026-07-15T02:12:44Z
 
 ## Last Update
-2026-07-15T02:23:59Z
+2026-07-15T02:46:55Z
 
 ## Blocked By
 - TASK-260715-2lodgq
@@ -19,6 +19,7 @@ backlog
 - TASK-260715-2drjj5
 - TASK-260715-2bo0xl
 - TASK-260715-3rqfao
+- TASK-260715-kq7vqf
 
 ## Checklist
 - [ ] Integrate current-generation readiness and provider reasserting with exact restore order

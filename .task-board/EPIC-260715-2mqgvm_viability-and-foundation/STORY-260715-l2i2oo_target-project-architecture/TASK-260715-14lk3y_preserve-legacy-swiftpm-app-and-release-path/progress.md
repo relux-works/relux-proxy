@@ -8,13 +8,14 @@ backlog
 2026-07-15T01:00:14Z
 
 ## Last Update
-2026-07-15T01:35:44Z
+2026-07-15T02:46:59Z
 
 ## Blocked By
 - TASK-260715-2btjwm
 
 ## Blocks
 - TASK-260715-sbrrp7
+- TASK-260715-35nc5m
 
 ## Checklist
 - [ ] Legacy build, tests, defaults, app packaging, and artifact identity are preserved

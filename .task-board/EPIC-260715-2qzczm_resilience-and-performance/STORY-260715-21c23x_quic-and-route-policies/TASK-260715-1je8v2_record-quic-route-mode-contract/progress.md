@@ -8,7 +8,7 @@ backlog
 2026-07-15T02:12:44Z
 
 ## Last Update
-2026-07-15T02:25:43Z
+2026-07-15T02:46:57Z
 
 ## Blocked By
 - TASK-260715-30lv40
@@ -22,6 +22,10 @@ backlog
 - TASK-260715-1xsybm
 - TASK-260715-14u9bo
 - TASK-260715-1r6k4t
+- TASK-260715-2a1cp7
+- TASK-260715-wz0mvf
+- TASK-260715-2bgp7x
+- TASK-260715-2gwfaw
 
 ## Checklist
 - [ ] Attach task-scoped QUIC traffic, route settings, exception, and transition tables and diagrams

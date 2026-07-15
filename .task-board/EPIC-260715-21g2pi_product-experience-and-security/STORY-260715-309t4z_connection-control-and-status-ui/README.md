@@ -1,10 +1,10 @@
-# STORY-260715-309t4z: connection-control-and-status-ui
+# Truthful VPN connection controls, capability status, and policy settings
 
 ## Description
-Provide native iOS and macOS connect/disconnect, system VPN status, capability mode, progress, settings, and profile selection.
+Provide native iOS and macOS controls that start and stop the owned Network Extension session and explain its authoritative lifecycle and forwarding capability without making the containing app part of the live tunnel.
 
 ## Scope
-(define story scope)
+In scope: selected-profile controls, connect, disconnect, system VPN permission, owned-manager errors, disconnected, connecting, connected/full, connected/degraded, reasserting, disconnecting, and failed presentation, capability and reason details, profile switching, QUIC Auto/Allow/Block UDP 443 policy, compatible and platform-scoped fail-closed routing choices, stale-state handling, iOS and macOS presentation, accessibility, automated UI tests, and physical system-indicator checks. Out of scope: packet/SSH/relay implementation, redefining capability predicates, release signing, TestFlight, App Review submission, analytics, and legacy public SOCKS controls.
 
 ## Acceptance Criteria
-(define acceptance criteria)
+1. iOS and macOS users can select an eligible profile, grant required system VPN permission, connect, disconnect, and recover after containing-app relaunch while the Network Extension session remains authoritative. 2. The UI renders exactly the required lifecycle states and never reports connected/full unless the current provider generation confirms TCP, leak-safe DNS, UDP, and required address-family capability. 3. Degraded mode remains connected, names the missing UDP capability and safe limitations, while failed is reserved for a mandatory safe-forwarding failure. 4. Reasserting, disconnecting, stale snapshots, permission denial, configuration failure, host trust/auth failure, and tunnel setup failure have deterministic controls and accessible remediation. 5. QUIC and routing settings expose only policies supported by the accepted M3 contracts, explain compatible versus fail-closed limitations, and apply through versioned profile generations. 6. Deterministic state tests, iOS/macOS UI tests, and physical-device checks verify controls, system VPN indicator, host-app termination continuity, full/degraded transitions, profile switching, accessibility, and screenshots.

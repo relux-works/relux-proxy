@@ -8,7 +8,7 @@ to-dev
 2026-07-15T00:46:59Z
 
 ## Last Update
-2026-07-15T01:09:28Z
+2026-07-15T02:46:49Z
 
 ## Blocked By
 - (none)
@@ -16,6 +16,7 @@ to-dev
 ## Blocks
 - STORY-260715-l2i2oo
 - STORY-260715-lkshfz
+- STORY-260715-tx1tbz
 
 ## Checklist
 (empty)

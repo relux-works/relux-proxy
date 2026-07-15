@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:16:33Z
 
 ## Last Update
-2026-07-15T01:28:14Z
+2026-07-15T02:46:50Z
 
 ## Blocked By
 - TASK-260715-29ws8l
@@ -17,6 +17,8 @@ backlog
 ## Blocks
 - TASK-260715-3t2v9w
 - TASK-260715-3cv3r4
+- TASK-260715-28bwf4
+- TASK-260715-1yxpqv
 
 ## Checklist
 - [ ] Implement atomic versioned profile loading and exhaustive validation

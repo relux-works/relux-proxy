@@ -8,13 +8,14 @@ backlog
 2026-07-15T00:58:00Z
 
 ## Last Update
-2026-07-15T01:04:26Z
+2026-07-15T02:46:49Z
 
 ## Blocked By
 - TASK-260715-apc34w
 
 ## Blocks
 - TASK-260715-3jloqy
+- TASK-260715-379cpk
 
 ## Checklist
 - [ ] Four-target identifiers and least-privilege entitlements are exact

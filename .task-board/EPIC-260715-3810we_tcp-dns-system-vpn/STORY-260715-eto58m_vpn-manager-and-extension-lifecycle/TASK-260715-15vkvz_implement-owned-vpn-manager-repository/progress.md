@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:16:19Z
 
 ## Last Update
-2026-07-15T01:29:21Z
+2026-07-15T02:46:58Z
 
 ## Blocked By
 - TASK-260715-1q4qhw
@@ -17,6 +17,8 @@ backlog
 ## Blocks
 - TASK-260715-1rsqrh
 - TASK-260715-3lab1f
+- TASK-260715-3btpxm
+- TASK-260715-6qqmsz
 
 ## Checklist
 - [ ] Implement idempotent owned-manager persistence with least data

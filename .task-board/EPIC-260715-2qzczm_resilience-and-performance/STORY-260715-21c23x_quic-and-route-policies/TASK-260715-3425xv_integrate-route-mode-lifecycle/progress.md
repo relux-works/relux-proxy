@@ -8,7 +8,7 @@ backlog
 2026-07-15T02:12:44Z
 
 ## Last Update
-2026-07-15T02:23:59Z
+2026-07-15T02:46:55Z
 
 ## Blocked By
 - TASK-260715-1xsybm
@@ -19,6 +19,7 @@ backlog
 - TASK-260715-pmg702
 - TASK-260715-330cst
 - TASK-260715-3rqfao
+- TASK-260715-34pn13
 
 ## Checklist
 - [ ] Integrate one generation-safe route-mode settings transaction across startup and reconnect
