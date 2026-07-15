@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:01:35Z
 
 ## Last Update
-2026-07-15T02:03:54Z
+2026-07-15T03:19:55Z
 
 ## Blocked By
 - TASK-260715-uopycx
@@ -18,6 +18,7 @@ backlog
 ## Blocks
 - TASK-260715-35wctc
 - TASK-260715-52h8i3
+- TASK-260715-1loqwb
 
 ## Checklist
 - [ ] Pinned unmodified HEV builds in harness and all Apple target configurations

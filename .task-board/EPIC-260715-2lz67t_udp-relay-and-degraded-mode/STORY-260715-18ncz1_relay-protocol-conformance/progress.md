@@ -8,10 +8,11 @@ to-dev
 2026-07-15T00:47:08Z
 
 ## Last Update
-2026-07-15T03:11:25Z
+2026-07-15T03:19:54Z
 
 ## Blocked By
-- (none)
+- STORY-260715-2itwz7
+- STORY-260715-l2i2oo
 
 ## Blocks
 - STORY-260715-3pv7qc

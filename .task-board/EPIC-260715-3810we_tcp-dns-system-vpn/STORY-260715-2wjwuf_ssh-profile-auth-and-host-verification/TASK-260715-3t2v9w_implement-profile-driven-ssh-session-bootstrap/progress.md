@@ -8,7 +8,7 @@ backlog
 2026-07-15T01:16:33Z
 
 ## Last Update
-2026-07-15T02:46:51Z
+2026-07-15T03:19:57Z
 
 ## Blocked By
 - TASK-260715-3f4lxy
@@ -25,6 +25,8 @@ backlog
 - TASK-260715-3gj0ad
 - TASK-260715-2s8zr1
 - TASK-260715-31zqvw
+- TASK-260715-2uipar
+- TASK-260715-159pcp
 
 ## Checklist
 - [ ] Implement ordered physical-path resolve verify credential and authenticate bootstrap

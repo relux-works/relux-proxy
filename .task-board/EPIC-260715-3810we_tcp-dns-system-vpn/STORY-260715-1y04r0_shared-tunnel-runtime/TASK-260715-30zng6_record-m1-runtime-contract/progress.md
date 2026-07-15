@@ -8,10 +8,12 @@ backlog
 2026-07-15T01:16:07Z
 
 ## Last Update
-2026-07-15T02:03:55Z
+2026-07-15T03:19:55Z
 
 ## Blocked By
-- (none)
+- TASK-260715-nphtib
+- TASK-260715-2jatnd
+- TASK-260715-1gjxer
 
 ## Blocks
 - TASK-260715-lovbdz
@@ -20,6 +22,7 @@ backlog
 - TASK-260715-1juybj
 - TASK-260715-2pml0c
 - TASK-260715-1q4qhw
+- TASK-260715-30lv40
 
 ## Checklist
 - [ ] Deliver the task-scoped contract with no unresolved ownership or lifecycle placeholders
