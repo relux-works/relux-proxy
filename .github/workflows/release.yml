@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    tags: ["v*"]
+    tags: ["v0.2.0"]
 
 permissions:
   contents: write
@@ -15,39 +15,91 @@ concurrency:
 
 jobs:
   notarized-dmg:
-    runs-on: macos-15
+    runs-on: [self-hosted, macOS, X64, relux-proxy-release]
+    timeout-minutes: 90
+    env:
+      DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+      SIGN_IDENTITY: "Developer ID Application: Relux Works, LLC (262RZ595FP)"
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
+      - name: Validate GitHub release context
+        env:
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
+        run: |
+          scripts/github-release-preflight.sh
+          xcodebuild -version
+
       - name: Import Developer ID identity
         env:
           MACOS_CERT_P12: ${{ secrets.MACOS_CERT_P12 }}
         run: |
-          echo "$MACOS_CERT_P12" | base64 --decode > /tmp/relux-devid.p12
-          security create-keychain -p ci-temp ci.keychain
-          security set-keychain-settings -lut 21600 ci.keychain
-          security unlock-keychain -p ci-temp ci.keychain
-          security import /tmp/relux-devid.p12 -k ci.keychain -P "" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple: -s -k ci-temp ci.keychain
-          security list-keychains -d user -s ci.keychain login.keychain
-          rm -f /tmp/relux-devid.p12
+          set -euo pipefail
+
+          RELEASE_TEMP="$(mktemp -d "$RUNNER_TEMP/relux-release.XXXXXX")"
+          RELEASE_KEYCHAIN="$RELEASE_TEMP/relux-release.keychain-db"
+          certificate_path="$RELEASE_TEMP/developer-id.p12"
+          keychain_password="$(openssl rand -hex 32)"
+
+          cleanup_setup_failure() {
+            status=$?
+            if [[ "$status" -ne 0 ]]; then
+              security delete-keychain "$RELEASE_KEYCHAIN" >/dev/null 2>&1 || true
+              rm -rf -- "$RELEASE_TEMP"
+            fi
+            exit "$status"
+          }
+          trap cleanup_setup_failure EXIT
+
+          printf 'RELEASE_TEMP=%s\n' "$RELEASE_TEMP" >> "$GITHUB_ENV"
+          printf 'RELEASE_KEYCHAIN=%s\n' "$RELEASE_KEYCHAIN" >> "$GITHUB_ENV"
+          printf '%s' "$MACOS_CERT_P12" | base64 --decode > "$certificate_path"
+          chmod 600 "$certificate_path"
+          [[ -s "$certificate_path" ]]
+
+          security create-keychain -p "$keychain_password" "$RELEASE_KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$RELEASE_KEYCHAIN"
+          security unlock-keychain -p "$keychain_password" "$RELEASE_KEYCHAIN"
+          security import "$certificate_path" \
+            -k "$RELEASE_KEYCHAIN" \
+            -P "" \
+            -T /usr/bin/codesign
+          security set-key-partition-list \
+            -S apple-tool:,apple: \
+            -s \
+            -k "$keychain_password" \
+            "$RELEASE_KEYCHAIN"
+
+          signing_identities="$(security find-identity -v -p codesigning "$RELEASE_KEYCHAIN")"
+          if [[ "$signing_identities" != *"\"$SIGN_IDENTITY\""* ]]; then
+            echo "error: imported keychain does not contain the required release identity" >&2
+            exit 1
+          fi
+
+          rm -f "$certificate_path"
+          unset keychain_password signing_identities
+          trap - EXIT
 
       - name: Build signed universal app
         env:
           VERSION: ${{ github.ref_name }}
           BUILD_NUMBER: ${{ github.run_number }}
-          SIGN_IDENTITY: "Developer ID Application: Relux Works, LLC (262RZ595FP)"
           REQUIRE_DEVELOPER_ID: "1"
-        run: scripts/build-app.sh
+        run: SIGN_KEYCHAIN="$RELEASE_KEYCHAIN" scripts/build-app.sh
 
       - name: Package and sign DMG
         env:
           VERSION: ${{ github.ref_name }}
         run: |
+          set -euo pipefail
           scripts/create-dmg.sh
-          codesign --force --sign "Developer ID Application: Relux Works, LLC (262RZ595FP)" \
+          codesign --force --sign "$SIGN_IDENTITY" \
+            --keychain "$RELEASE_KEYCHAIN" \
             --timestamp dist/ReluxProxy-*.dmg
 
       - name: Notarize and staple
@@ -56,21 +108,38 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
-          echo "$ASC_KEY_P8" | base64 --decode > /tmp/asc.p8
+          set -euo pipefail
+
+          notary_key="$RELEASE_TEMP/asc.p8"
+          notary_result="$RELEASE_TEMP/notary-result.json"
+          printf '%s' "$ASC_KEY_P8" | base64 --decode > "$notary_key"
+          chmod 600 "$notary_key"
+          [[ -s "$notary_key" ]]
+
           xcrun notarytool submit dist/ReluxProxy-*.dmg \
-            --key /tmp/asc.p8 \
+            --key "$notary_key" \
             --key-id "$ASC_KEY_ID" \
             --issuer "$ASC_ISSUER_ID" \
-            --wait
-          rm -f /tmp/asc.p8
+            --wait \
+            --output-format json > "$notary_result"
+          notary_status="$(plutil -extract status raw -o - "$notary_result")"
+          if [[ "$notary_status" != "Accepted" ]]; then
+            echo "error: Apple notarization returned status '$notary_status'" >&2
+            exit 1
+          fi
+
+          rm -f "$notary_key"
           xcrun stapler staple dist/ReluxProxy-*.dmg
           xcrun stapler validate dist/ReluxProxy-*.dmg
+          codesign --verify --strict --verbose=2 dist/ReluxProxy-*.dmg
           spctl -a -t open --context context:primary-signature -v dist/ReluxProxy-*.dmg
 
       - name: Create stable latest asset and checksums
         run: |
+          set -euo pipefail
           cp dist/ReluxProxy-*.dmg dist/ReluxProxy.dmg
           (cd dist && shasum -a 256 ReluxProxy-*.dmg ReluxProxy.dmg > SHA256SUMS)
+          (cd dist && shasum -a 256 -c SHA256SUMS)
 
       - name: Attest build provenance
         uses: actions/attest-build-provenance@v4
@@ -85,3 +154,7 @@ jobs:
             dist/ReluxProxy.dmg
             dist/SHA256SUMS
           generate_release_notes: true
+
+      - name: Clean release credentials
+        if: ${{ always() }}
+        run: scripts/github-release-cleanup.sh

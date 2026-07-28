@@ -1,8 +1,11 @@
 # GitLab macOS release runbook
 
-This runbook is the production path for Relux Proxy v0.2.0. It deliberately
-fails closed until the Relux-owned GitLab project, accepted commit, protected
-runner, and Apple credentials are all present.
+This is a retained record of the earlier GitLab release design, not the current
+production path. GitHub Releases is now the selected target; use
+[the GitHub release runbook](github-release.md). No GitLab tag or Release was
+published. The historical design below deliberately fails closed until the
+Relux-owned GitLab project, accepted commit, protected runner, and Apple
+credentials are all present.
 
 ## Current external blocker
 

@@ -48,14 +48,15 @@ stale callback protection, diagnostics, active mutation rejection, and
 coordinated shutdown. CI runs `swift test` and builds an ad-hoc-signed universal
 application bundle.
 
-The v0.2.0 release automation imports the Relux Works Developer ID certificate
-into a disposable keychain, builds a universal app, signs the DMG, notarizes and
-staples it, validates it with Gatekeeper, publishes checksums, and verifies both
-the versioned and stable `ReluxProxy.dmg` GitLab Release assets. It refuses the
-wrong host, project, accepted commit, runner, identity, or unsigned fallback.
-Production publication remains externally blocked until the exact Relux GitLab
-project, authorization, protected macOS runner, and notarization variables are
-confirmed; no GitLab v0.2.0 release is currently claimed.
+The v0.2.0 GitHub release automation runs only on the dedicated
+`relux-proxy-release` self-hosted macOS x64 runner. It selects the full Xcode
+installation, imports the Relux Works Developer ID certificate into a
+disposable keychain, builds a universal app, signs the DMG, requires accepted
+notarization, staples and validates it with Gatekeeper, publishes checksums, and
+attests the GitHub Release assets. It refuses the wrong repository, tag,
+checkout, runner, identity, missing secret, or unsigned fallback. Runner
+configuration does not create the v0.2.0 tag or claim that publication has
+occurred; no GitLab v0.2.0 release is currently claimed.
 
 ## What does not exist
 

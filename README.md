@@ -89,17 +89,15 @@ for numeric-IP, proxy-DNS hostname, and application-level checks.
 
 ## Download
 
-The latest signed and notarized build always has the same asset name and URL
-(GitHub authentication is required while this repository is private):
+The latest signed and notarized build always has the same asset name and URL:
 
 https://github.com/relux-works/relux-proxy/releases/latest/download/ReluxProxy.dmg
 
 Versioned DMGs and SHA-256 checksums are available on the GitHub Releases page.
-The v0.2.0 GitLab release is intentionally not advertised as published until
-the Relux-owned GitLab hostname and project are confirmed and its protected
-release pipeline passes. See the
-[GitLab release runbook](docs/gitlab-release.md) for the exact gate and current
-external blocker.
+The dedicated GitHub release runner is configured, but v0.2.0 is not advertised
+as published until the separately authorized `v0.2.0` tag workflow succeeds.
+See the [GitHub release runbook](docs/github-release.md) for the runner boundary,
+fail-closed gates, and validation commands.
 
 ## Development
 
@@ -122,8 +120,9 @@ make run
 | `make dmg` | Build the app, then package a disk image. | `dist/ReluxProxy-v<version>-universal.dmg`. |
 | `make run` | Build the app, then open it. | Opens `dist/ReluxProxy.app`. |
 | `shellcheck scripts/*.sh` | Lint packaging and release shell automation. | Diagnostics only; scripts are not modified. |
-| GitLab `validate` pipeline | Run shell lint, Swift tests/build, and an ad-hoc universal app build on a macOS runner. | GitLab job logs and development build artifacts. |
-| GitLab protected `v0.2.0` pipeline | Build, Developer ID sign, notarize, staple, Gatekeeper-check, publish, and re-download/verify the release assets. | GitLab Package Registry, Release assets, and maintainer-only audit artifacts. |
+| `actionlint .github/workflows/*.yml` | Validate GitHub Actions workflow syntax and expressions. | Diagnostics only; workflow files are not modified. |
+| GitHub `ci` workflow | Run Swift tests and build an ad-hoc universal app on a GitHub-hosted macOS runner. | GitHub Actions logs and development build output. |
+| GitHub `release` workflow | Build, Developer ID sign, notarize, staple, Gatekeeper-check, attest, and publish v0.2.0 on the dedicated runner. | GitHub Release assets, attestation, and Actions audit logs. |
 
 The app is intentionally not sandboxed because it needs to launch the system
 SSH executable. Release bundles use the hardened runtime and are signed with
@@ -138,13 +137,11 @@ approval of the generated plan.
 
 ## Release
 
-Relux Proxy v0.2.0 uses the fail-closed GitLab pipeline documented in
-[docs/gitlab-release.md](docs/gitlab-release.md). Do not add or push a GitLab
-remote until the Relux-owned hostname, namespace/project, project ID, release
-account, accepted commit SHA, protected macOS runner, and protected credentials
-are explicitly confirmed. `gitlab.wildberries.ru` is unrelated and prohibited
-for this release.
+Relux Proxy v0.2.0 uses the fail-closed GitHub tag workflow documented in the
+[GitHub release runbook](docs/github-release.md). It targets only the dedicated
+`self-hosted`, `macOS`, `X64`, `relux-proxy-release` runner and selects the full
+Xcode installation without changing the host-wide developer directory.
 
-The existing GitHub tag workflow remains historical release automation. Both
-paths require a real Developer ID signature; production mode in
-`scripts/build-app.sh` refuses an ad-hoc fallback.
+Creating or pushing `v0.2.0` and publishing the Release are separate authorized
+release operations. The workflow requires the exact Relux Works Developer ID;
+production mode in `scripts/build-app.sh` refuses an ad-hoc fallback.
