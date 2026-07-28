@@ -1,0 +1,1 @@
+Implemented application SOCKS5 boundary copy, redacted remote-VPN reachability guidance, and coverage for guidance plus unchanged OpenSSH dynamic-forward semantics. Validation passed: make lint exit 0; make test exit 0; make build exit 0; scoped git diff --check exit 0; new-file trailing-whitespace check exit 0.

@@ -1,0 +1,1 @@
+The worktree contains extensive unrelated user changes in historical board/spec/config files. Treat them as foreign. Do not restore, rewrite, stage, commit, or clean them. Modify only files required by TASK-260728-3p6rkz plus its task-board state through task-board. Inspect git diff before handoff and explicitly list scoped source/test/doc files.

@@ -1,0 +1,10 @@
+# Mandatory developer rework
+
+This is an implementation assignment, not another read-only audit. Modify the current scoped release files and hand off to fresh review.
+
+1. Fix scripts/verify-gitlab-release.sh so CI_JOB_TOKEN is sent only to the exact confirmed GitLab origin and is never forwarded to a cross-origin redirect. Do not use custom JOB-TOKEN together with unrestricted curl --location. A bounded/manual redirect design is acceptable: same-origin GitLab hops may carry the token; an external signed HTTPS object-storage URL must be fetched without the token. Reject unsafe schemes, malformed/missing Location, excessive redirects, and unexpected status. Preserve release tag/SHA, checksum-file identity, per-asset hashes, and stable/versioned byte-equality checks.
+2. Add a regression with two loopback origins and a synthetic token proving the redirect target receives no JOB-TOKEN. Include positive same-origin/download behavior and fail-closed unsafe redirect cases. No real network or credential.
+3. Add protected RELUX_GITLAB_PROJECT_ID to preflight/runbook/CI expectations and require exact equality with CI_PROJECT_ID before URLs are built. Missing or mismatched ID must fail.
+4. Untracked release files are expected until the final scoped commit; do not treat that as this code defect and do not stage/commit/push. Preserve all unrelated dirty worktree changes.
+5. Validate against a snapshot containing all CURRENT Package.swift, Sources, Tests, Resources, scripts, .gitlab-ci.yml, .github, Makefile, README, docs, .spec, and release-notes. The full current suite must show 49 or more tests, not the 4-test committed baseline. Run ShellCheck/Bash syntax/YAML/format/build/ad-hoc app/preflight/offline upload+verify matrices.
+6. Do not call GitLab, Apple notarization, or any external release endpoint.

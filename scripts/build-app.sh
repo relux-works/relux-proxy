@@ -9,6 +9,17 @@ BUILD_NUMBER="${BUILD_NUMBER:-$(git -C "$ROOT" rev-list --count HEAD 2>/dev/null
 APP_NAME="ReluxProxy"
 BUNDLE="$ROOT/dist/$APP_NAME.app"
 SIGN_IDENTITY="${SIGN_IDENTITY:-Developer ID Application: Relux Works, LLC (262RZ595FP)}"
+SIGN_KEYCHAIN="${SIGN_KEYCHAIN:-}"
+REQUIRE_DEVELOPER_ID="${REQUIRE_DEVELOPER_ID:-0}"
+
+if [[ "$REQUIRE_DEVELOPER_ID" != "0" && "$REQUIRE_DEVELOPER_ID" != "1" ]]; then
+    echo "error: REQUIRE_DEVELOPER_ID must be 0 or 1" >&2
+    exit 1
+fi
+if [[ "$REQUIRE_DEVELOPER_ID" == "1" && "$SIGN_IDENTITY" == "-" ]]; then
+    echo "error: an ad-hoc signature is forbidden for a production release" >&2
+    exit 1
+fi
 
 cd "$ROOT"
 rm -rf "$BUNDLE"
@@ -28,10 +39,27 @@ swift "$ROOT/scripts/generate-icon.swift" "$BUNDLE/Contents/Resources/ReluxProxy
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $SHORT_VERSION" "$BUNDLE/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD_NUMBER" "$BUNDLE/Contents/Info.plist"
 
+SIGNING_IDENTITIES=""
+if [[ "$SIGN_IDENTITY" != "-" ]]; then
+    if [[ -n "$SIGN_KEYCHAIN" ]]; then
+        SIGNING_IDENTITIES="$(security find-identity -v -p codesigning "$SIGN_KEYCHAIN")"
+    else
+        SIGNING_IDENTITIES="$(security find-identity -v -p codesigning)"
+    fi
+fi
+
 if [[ "$SIGN_IDENTITY" == "-" ]]; then
     codesign --force --sign - "$BUNDLE"
-elif security find-identity -v -p codesigning | grep -Fq "$SIGN_IDENTITY"; then
-    codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$BUNDLE"
+elif grep -Fq "$SIGN_IDENTITY" <<<"$SIGNING_IDENTITIES"; then
+    if [[ -n "$SIGN_KEYCHAIN" ]]; then
+        codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" \
+            --keychain "$SIGN_KEYCHAIN" "$BUNDLE"
+    else
+        codesign --force --options runtime --timestamp --sign "$SIGN_IDENTITY" "$BUNDLE"
+    fi
+elif [[ "$REQUIRE_DEVELOPER_ID" == "1" ]]; then
+    echo "error: required signing identity '$SIGN_IDENTITY' was not found" >&2
+    exit 1
 else
     echo "warning: '$SIGN_IDENTITY' not found; using an ad-hoc signature" >&2
     codesign --force --sign - "$BUNDLE"

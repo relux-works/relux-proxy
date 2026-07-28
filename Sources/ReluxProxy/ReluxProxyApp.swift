@@ -2,23 +2,35 @@ import AppKit
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    func applicationWillTerminate(_ notification: Notification) {
-        TunnelController.shared.shutdown()
+  private var terminationPending = false
+
+  func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+    guard !terminationPending else {
+      return .terminateLater
     }
+
+    terminationPending = true
+    TunnelController.shared.shutdown {
+      DispatchQueue.main.async {
+        sender.reply(toApplicationShouldTerminate: true)
+      }
+    }
+    return .terminateLater
+  }
 }
 
 @main
 struct ReluxProxyApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @StateObject private var controller = TunnelController.shared
+  @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+  @State private var controller = TunnelController.shared
 
-    var body: some Scene {
-        MenuBarExtra {
-            MenuContentView(controller: controller)
-        } label: {
-            Image(systemName: controller.status.symbolName)
-                .accessibilityLabel("Relux Proxy: \(controller.status.title)")
-        }
-        .menuBarExtraStyle(.window)
+  var body: some Scene {
+    MenuBarExtra {
+      MenuContentView(controller: controller)
+    } label: {
+      Image(systemName: controller.aggregateStatus.symbolName)
+        .accessibilityLabel("Relux Proxy: \(controller.aggregateStatus.title)")
     }
+    .menuBarExtraStyle(.window)
+  }
 }

@@ -1,6 +1,6 @@
-# Current state and migration boundary
+# Current state and future VPN boundary
 
-Last verified: 2026-07-15.
+Last verified: 2026-07-28.
 
 ## What exists
 
@@ -9,22 +9,53 @@ shell scripts as a menu bar `.app` and DMG.
 
 The app:
 
-- stores SSH host, account, and local SOCKS port in `AppStorage`;
+- stores an ordered collection of profiles as one schema-versioned JSON Data
+  value under `legacySocksProfiles.v1`, with stable UUID identity and unique
+  explicit local ports;
+- migrates the legacy `sshHost`, `sshAccount`, and `localPort` values exactly
+  once, leaves those keys untouched for rollback, and never resurrects deleted
+  profiles after the migration marker is set;
+- owns one independent runtime session per profile, allowing multiple SSH
+  children and SOCKS tunnels to connect concurrently on different local ports;
 - launches `/usr/bin/ssh -N -C -D 127.0.0.1:<port>` with fail-fast, keepalive,
   timeout, batch-mode, and quiet logging options;
-- inherits host aliases, keys, ProxyJump, and other behavior from the user's
-  `~/.ssh/config`;
-- reports connecting, connected, disconnecting, disconnected, and failed states;
-- requires the user to configure a browser or other SOCKS-aware client manually;
+- passes an empty account as the bare host target, allowing system OpenSSH to
+  use a matching `User` setting (or its normal default); a non-empty account is
+  sent with `-l account` while the destination remains the bare host or alias,
+  which explicitly overrides only the SSH user;
+- accepts an IP address, hostname, or `Host` alias and lets the system client
+  apply matching `~/.ssh/config` behavior such as `HostName`, `Port`,
+  `IdentityFile`, and `ProxyJump`;
+- binds the SOCKS listener only to IPv4 loopback (`127.0.0.1`) and keeps a
+  separate trailing 4,000-character in-memory diagnostic for every session;
+- rejects duplicate saved ports and externally occupied loopback ports without
+  stopping or modifying another session or process;
+- reports connecting, connected, disconnecting, disconnected, and failed states
+  per row, with aggregate menu-bar status;
+- prevents profile edits and removal while that profile owns a starting,
+  connected, or stopping child;
+- stops every child it owns on normal quit and starts every saved profile
+  disconnected on the next launch, with no automatic retry or reconnect;
+- exposes every listed endpoint as an Application SOCKS5 proxy — TCP only; not
+  a system VPN or system-wide routing. Users configure a SOCKS-aware client
+  manually and enable proxy DNS/SOCKS5h when private names need the remote
+  resolver;
 - intentionally runs outside the App Sandbox so it can spawn system SSH.
 
-Tests cover profile validation and exact SSH argument construction. CI runs
-`swift test` and builds an ad-hoc-signed universal application bundle.
+Tests cover profile migration and persistence, command construction and account
+precedence, duplicate and OS port conflicts, concurrent independent lifecycle,
+stale callback protection, diagnostics, active mutation rejection, and
+coordinated shutdown. CI runs `swift test` and builds an ad-hoc-signed universal
+application bundle.
 
-Tagged releases import the Relux Works Developer ID certificate, build a
-universal app, sign the DMG, notarize and staple it, validate it with Gatekeeper,
-publish checksums/provenance, and upload both versioned and stable
-`ReluxProxy.dmg` assets.
+The v0.2.0 release automation imports the Relux Works Developer ID certificate
+into a disposable keychain, builds a universal app, signs the DMG, notarizes and
+staples it, validates it with Gatekeeper, publishes checksums, and verifies both
+the versioned and stable `ReluxProxy.dmg` GitLab Release assets. It refuses the
+wrong host, project, accepted commit, runner, identity, or unsigned fallback.
+Production publication remains externally blocked until the exact Relux GitLab
+project, authorization, protected macOS runner, and notarization variables are
+confirmed; no GitLab v0.2.0 release is currently claimed.
 
 ## What does not exist
 
@@ -40,17 +71,27 @@ The current app is not a system VPN and does not contain:
 - Network Extension entitlements or provisioning;
 - TestFlight/App Store release automation.
 
-## Migration boundary
+## Implemented legacy migration
 
-The planned product in `.spec/` is a new architecture, not an incremental toggle
-inside `TunnelController`. Existing source files remain the current SOCKS
-product until board-approved migration tasks create the multi-target project.
+The [multi-profile usage guide](../README.md#use) describes the user-facing
+workflow. The implementation above provides the one-time migration, profile
+persistence, OpenSSH account precedence, port ownership, diagnostics, and
+independent lifecycle. Runtime state and reconnect intent are never persisted.
 
-During migration:
+The [remote VPN reachability guide](socks-vpn-reachability.md) documents the
+same application-level boundary, proxy-side DNS, and redacted diagnostics. A
+remote VPN route, the authenticated `sshd` forwarding process/account policy,
+and the remote firewall must all permit the requested TCP destination; Relux
+Proxy does not change local system proxy, DNS, or routes.
+
+The planned VPN product in `.spec/` remains a new architecture, not an
+incremental toggle inside the legacy SOCKS controller.
+
+For future VPN work:
 
 - the stable macOS release path must remain reproducible;
-- current host/account defaults and user expectations need an explicit migration
-  decision;
+- any migration from legacy SOCKS profiles to VPN profiles still needs its own
+  explicit product decision;
 - the system-SSH implementation may remain as a macOS legacy mode, be replaced,
   or be retired only through a product decision;
 - SwiftPM tests and release history must not be silently discarded;

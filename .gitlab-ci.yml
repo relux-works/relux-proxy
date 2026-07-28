@@ -1,0 +1,98 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_TAG == "v0.2.0"'
+    - if: "$CI_COMMIT_TAG"
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: "$CI_COMMIT_BRANCH"
+
+stages:
+  - validate
+  - release
+  - verify
+
+variables:
+  GIT_DEPTH: "0"
+
+validate:
+  stage: validate
+  tags:
+    - macos
+  script:
+    - shellcheck scripts/*.sh
+    - swift test
+    - swift build
+    - SIGN_IDENTITY="-" REQUIRE_DEVELOPER_ID=0 scripts/build-app.sh
+
+release_v0_2_0:
+  stage: release
+  tags:
+    - macos
+    - relux-release
+  resource_group: relux-production-release
+  interruptible: false
+  environment:
+    name: production
+  rules:
+    - if: '$CI_COMMIT_TAG == "v0.2.0"'
+  script:
+    - 'test -n "$RELUX_GITLAB_PROJECT_ID"'
+    - 'test "$CI_PROJECT_ID" = "$RELUX_GITLAB_PROJECT_ID"'
+    - command -v glab
+    - scripts/release-macos.sh
+    - scripts/upload-gitlab-release-assets.sh
+  artifacts:
+    name: "ReluxProxy-$CI_COMMIT_TAG-release-evidence"
+    access: maintainer
+    expire_in: 1 year
+    paths:
+      - dist/ReluxProxy-v0.2.0-universal.dmg
+      - dist/ReluxProxy.dmg
+      - dist/SHA256SUMS
+      - dist/RELEASE-EVIDENCE.txt
+      - dist/ReluxProxy-v0.2.0-architectures.txt
+      - dist/ReluxProxy-v0.2.0-codesign.txt
+      - dist/ReluxProxy-v0.2.0-gatekeeper.txt
+      - dist/ReluxProxy-v0.2.0-notarization.json
+      - dist/ReluxProxy-v0.2.0-notarization-log.json
+  release:
+    name: "Relux Proxy v0.2.0"
+    tag_name: "$CI_COMMIT_TAG"
+    description: "./release-notes/v0.2.0.md"
+    assets:
+      links:
+        - name: "ReluxProxy-v0.2.0-universal.dmg"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/relux-proxy/$CI_COMMIT_TAG/ReluxProxy-v0.2.0-universal.dmg"
+          filepath: "/ReluxProxy-v0.2.0-universal.dmg"
+          link_type: package
+        - name: "ReluxProxy.dmg"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/relux-proxy/$CI_COMMIT_TAG/ReluxProxy.dmg"
+          filepath: "/ReluxProxy.dmg"
+          link_type: package
+        - name: "SHA256SUMS"
+          url: "$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/relux-proxy/$CI_COMMIT_TAG/SHA256SUMS"
+          filepath: "/SHA256SUMS"
+          link_type: package
+
+verify_v0_2_0:
+  stage: verify
+  tags:
+    - macos
+    - relux-release
+  interruptible: false
+  needs:
+    - job: release_v0_2_0
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_TAG == "v0.2.0"'
+  script:
+    - 'test -n "$RELUX_GITLAB_PROJECT_ID"'
+    - 'test "$CI_PROJECT_ID" = "$RELUX_GITLAB_PROJECT_ID"'
+    - scripts/verify-gitlab-release.sh
+  artifacts:
+    name: "ReluxProxy-$CI_COMMIT_TAG-published-verification"
+    access: maintainer
+    when: always
+    expire_in: 1 year
+    paths:
+      - dist/published-verification/

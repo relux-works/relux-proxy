@@ -1,4 +1,7 @@
-.PHONY: test build app dmg run clean
+.PHONY: lint test build app dmg run clean
+
+lint:
+	swift format lint --recursive --strict Sources Tests
 
 test:
 	swift test

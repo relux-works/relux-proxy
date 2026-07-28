@@ -16,7 +16,8 @@ modes, or supported platforms must update the corresponding specification and
 
 ## Development baseline
 
-The current application requires macOS 14+, Xcode 15.3+, and Swift 5.10.
+The current application requires macOS 14+ and Xcode 16+ with its Swift 6
+toolchain. The package remains in Swift 5 language mode.
 
 ```sh
 make test

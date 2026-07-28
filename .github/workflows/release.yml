@@ -39,6 +39,7 @@ jobs:
           VERSION: ${{ github.ref_name }}
           BUILD_NUMBER: ${{ github.run_number }}
           SIGN_IDENTITY: "Developer ID Application: Relux Works, LLC (262RZ595FP)"
+          REQUIRE_DEVELOPER_ID: "1"
         run: scripts/build-app.sh
 
       - name: Package and sign DMG

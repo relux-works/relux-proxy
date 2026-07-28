@@ -1,0 +1,1 @@
+A Mac connects over SSH to another machine and opens a tunnel, but the source Mac cannot reach the VPN network that is active on the remote SSH machine. Determine what must be configured or implemented so that this access works, including the difference between an application SOCKS proxy and system-wide routing.
